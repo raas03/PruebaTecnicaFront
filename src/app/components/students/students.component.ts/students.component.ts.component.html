@@ -1,0 +1,193 @@
+<div class="container">
+
+  <div class="header">
+    <h1>Gestión de Estudiantes</h1>
+
+    <button class="btn-new" (click)="nuevo()">
+      + Nuevo estudiante
+    </button>
+  </div>
+
+
+  <div class="table-container">
+
+    <h2>Lista de estudiantes</h2>
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Matrícula</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let student of students">
+
+          <td>
+            {{ student.id }}
+          </td>
+
+          <td>
+            {{ student.name }}
+          </td>
+
+          <td>
+            {{ student.lastName }}
+          </td>
+
+          <td>
+            {{ student.enrollMent }}
+          </td>
+
+          <td>
+            <span
+              [class.active]="student.estado"
+              [class.inactive]="!student.estado">
+
+              {{ student.estado ? 'Activo' : 'Inactivo' }}
+
+            </span>
+          </td>
+
+          <td>
+
+            <button
+              class="btn-edit"
+              (click)="editar(student)">
+              Editar
+            </button>
+
+            <button
+              class="btn-status"
+              (click)="cambiarEstado(student)">
+              {{ student.estado ? 'Desactivar' : 'Activar' }}
+            </button>
+
+            <button
+              class="btn-delete"
+              (click)="eliminar(student)">
+              Eliminar
+            </button>
+
+          </td>
+
+        </tr>
+
+        <tr *ngIf="students.length === 0">
+
+          <td colspan="6">
+            No hay estudiantes registrados.
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+
+<div
+  class="modal-backdrop"
+  *ngIf="mostrarModal"
+  (click)="cerrarModal()">
+
+  <div
+    class="modal"
+    (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+
+      <h2>
+        {{ editando ? 'Editar estudiante' : 'Nuevo estudiante' }}
+      </h2>
+
+      <button
+        class="btn-close"
+        (click)="cerrarModal()">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-body">
+
+
+      <div class="form-group">
+
+        <label>Nombre</label>
+
+        <input
+          type="text"
+          [(ngModel)]="student.name"
+          placeholder="Nombre"
+        />
+
+      </div>
+
+
+
+      <div class="form-group">
+
+        <label>Apellido</label>
+
+        <input
+          type="text"
+          [(ngModel)]="student.lastName"
+          placeholder="Apellido"
+        />
+
+      </div>
+
+
+
+      <div class="form-group">
+
+        <label>Matrícula</label>
+
+        <input
+          type="text"
+          [(ngModel)]="student.enrollMent"
+          placeholder="2025-0001"
+        />
+
+      </div>
+
+    </div>
+
+
+    <div class="modal-footer">
+
+      <button
+        class="btn-cancel"
+        (click)="cerrarModal()">
+
+        Cancelar
+
+      </button>
+
+      <button
+        class="btn-save"
+        (click)="guardar()">
+
+        {{ editando ? 'Actualizar' : 'Guardar' }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
